@@ -13,7 +13,7 @@ import (
 type EventKind = int
 
 const (
-	TestEvent EventKind = iota
+	AssignmentEvent EventKind = iota
 	ExamEvent
 )
 
@@ -57,4 +57,8 @@ func DumpEvents(path string, events []Event) error {
 		return errors.WithMessage(err, "failed to dump events")
 	}
 	return nil
+}
+
+func EventKindStrings() []string {
+	return []string{"Assignment", "Exam"}
 }

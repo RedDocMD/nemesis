@@ -31,10 +31,13 @@ func Execute() error {
 
 func init() {
 	initConfig()
+
 	dbPath := viper.GetString("dbPath")
 	localEvents, err := event.GetEvents(dbPath)
 	cobra.CheckErr(err)
 	copy(events, localEvents)
+
+	rootCmd.AddCommand(addCmd)
 }
 
 func initConfig() {
