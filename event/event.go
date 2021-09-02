@@ -26,7 +26,7 @@ type Event struct {
 func GetEvents(path string) ([]Event, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, errors.WithMessage(err, "failed to get events")
+		return nil, nil
 	}
 	defer file.Close()
 	var buf bytes.Buffer

@@ -1,6 +1,13 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"os"
+	"path"
+
+	"github.com/RedDocMD/nemesis/event"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "nme [command]",
@@ -12,6 +19,34 @@ create, delete, and modify events and a daemon to
 send notifications (via D-Bus).`,
 }
 
+var events []event.Event
+
+func Events() []event.Event {
+	return events
+}
+
 func Execute() error {
 	return rootCmd.Execute()
+}
+
+func init() {
+	initConfig()
+	dbPath := viper.GetString("dbPath")
+	localEvents, err := event.GetEvents(dbPath)
+	cobra.CheckErr(err)
+	copy(events, localEvents)
+}
+
+func initConfig() {
+	home, err := os.UserHomeDir()
+	cobra.CheckErr(err)
+
+	viper.AddConfigPath(path.Join(home, ".config", "nemesis"))
+	viper.AddConfigPath(path.Join(home, ".nemesis"))
+	viper.SetConfigType("yaml")
+	viper.SetConfigName("config")
+
+	viper.SetDefault("dbPath", path.Join(home, ".nemesisDB.json"))
+
+	viper.ReadInConfig()
 }
