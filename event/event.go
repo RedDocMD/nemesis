@@ -3,10 +3,12 @@ package event
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/pkg/errors"
 )
 
@@ -61,4 +63,20 @@ func DumpEvents(path string, events []Event) error {
 
 func EventKindStrings() []string {
 	return []string{"Assignment", "Exam"}
+}
+
+func (ev Event) KindName() string {
+	return EventKindStrings()[ev.Kind]
+}
+
+func (ev Event) String() string {
+	yellow := color.New(color.FgYellow).Add(color.Bold).SprintFunc()
+	red := color.New(color.FgRed).Add(color.Bold).SprintFunc()
+	cyan := color.New(color.FgCyan).SprintFunc()
+
+	when := ev.When
+	date := fmt.Sprintf("%d %s, %d", when.Day(), when.Month(), when.Year())
+	time := fmt.Sprintf("%d:%d", when.Hour(), when.Minute())
+
+	return fmt.Sprintf("%s %s on %s, %s", yellow(ev.Name), ev.KindName(), cyan(time), red(date))
 }

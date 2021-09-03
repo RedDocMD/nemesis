@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -20,6 +21,7 @@ Events may be duplicated and will not be guarded against this.`,
 			return err
 		}
 		events = append(events, *event)
+		fmt.Println("Created", *event)
 		return nil
 	},
 }
@@ -86,5 +88,13 @@ func createEvent() (*event.Event, error) {
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to create event")
 	}
-	return nil, nil
+	layout := "15:04 2 Jan, 06 -0700"
+	dateTimeStr := fmt.Sprintf("%s %s +0530", answers.Time, answers.Date)
+	when, _ := time.Parse(layout, dateTimeStr)
+	event := &event.Event{
+		Name: answers.Name,
+		Kind: answers.Kind,
+		When: when,
+	}
+	return event, nil
 }
