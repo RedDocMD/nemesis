@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 	"time"
 
 	"github.com/fatih/color"
@@ -79,4 +80,10 @@ func (ev Event) String() string {
 	time := fmt.Sprintf("%d:%d", when.Hour(), when.Minute())
 
 	return fmt.Sprintf("%s %s on %s, %s", yellow(ev.Name), ev.KindName(), cyan(time), red(date))
+}
+
+func SortByDate(events []Event) {
+	sort.Slice(events, func(i, j int) bool {
+		return events[i].When.Before(events[j].When)
+	})
 }
