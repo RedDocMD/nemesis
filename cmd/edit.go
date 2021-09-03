@@ -6,6 +6,7 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/RedDocMD/nemesis/event"
+	"github.com/fatih/color"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -23,6 +24,11 @@ var editCmd = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit an event reminder",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(events) == 0 {
+			color.Red("No events!")
+			return nil
+		}
+
 		event.SortByDate(events)
 		eventNames := make([]string, len(events))
 		for i, ev := range events {

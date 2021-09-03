@@ -16,6 +16,11 @@ var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an event",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(events) == 0 {
+			color.Red("No events!")
+			return nil
+		}
+
 		event.SortByDate(events)
 		eventNames := make([]string, len(events))
 		for i, ev := range events {
