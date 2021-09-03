@@ -1,0 +1,8 @@
+builds:
+  - main: ./nme.go
+    id: "cli"
+    binary: nme
+    goos:
+      - linux
+      - darwin
+      - windows
