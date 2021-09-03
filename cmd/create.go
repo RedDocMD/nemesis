@@ -26,7 +26,7 @@ Events may be duplicated and will not be guarded against this.`,
 	},
 }
 
-var qs = []*survey.Question{
+var createQuestions = []*survey.Question{
 	{
 		Name:     "name",
 		Prompt:   &survey.Input{Message: "What is the name of the event?"},
@@ -84,7 +84,7 @@ func createEvent() (*event.Event, error) {
 		Date string
 		Time string
 	}{}
-	err := survey.Ask(qs, &answers)
+	err := survey.Ask(createQuestions, &answers)
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to create event")
 	}
