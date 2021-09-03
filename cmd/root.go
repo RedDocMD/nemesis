@@ -35,9 +35,10 @@ func init() {
 	dbPath := viper.GetString("dbPath")
 	localEvents, err := event.GetEvents(dbPath)
 	cobra.CheckErr(err)
-	copy(events, localEvents)
+	events = append(events, localEvents...)
 
 	rootCmd.AddCommand(addCmd)
+	rootCmd.AddCommand(listCmd)
 }
 
 func initConfig() {

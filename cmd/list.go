@@ -1,0 +1,17 @@
+package cmd
+
+import (
+	"fmt"
+
+	"github.com/spf13/cobra"
+)
+
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List all event reminders",
+	Run: func(cmd *cobra.Command, args []string) {
+		for _, ev := range events {
+			fmt.Println(ev)
+		}
+	},
+}
