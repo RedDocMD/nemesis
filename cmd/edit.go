@@ -23,6 +23,7 @@ var editCmd = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit an event reminder",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		event.SortByDate(events)
 		eventNames := make([]string, len(events))
 		for i, ev := range events {
 			eventNames[i] = ev.Name
